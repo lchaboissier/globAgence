@@ -2,7 +2,7 @@
 
 const ENV =[
     // Paramètres pour l'application
-    'APP_NAME'    => 'Application Blanche',
+    'APP_NAME'    => 'OAGTI',
     'APP_VERSION' => 'v0',
     // Paramètres pour l'accès à la base de données
     'DB_HOST'     => 'localhost',
