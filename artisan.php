@@ -276,6 +276,77 @@ function artisan_seed_minimum() {
         }
         echo "\n";      
     }
+    function seedProperty(){
+        echo "ADD RECORDS TABLE Property :";
+        $property=[
+            'ref'=>,
+            'title'=>,
+            'description'=>,
+            'address'=>,
+            'postalCode'=>,
+            'area'=>,
+            'livingRoomsNumber'=>,
+        ];
+    }
+    function seedMandate(){
+        echo "ADD RECORDS TABLE Mandate :";
+       $mandate=[
+           'ref'=>,
+           'price'=>,
+           'agencyFees'=>,
+           'consultantBenefit'=>,
+           'signatureDate'=>,
+           'status'=>,
+       ];
+    }
+    function seedOwner(){
+        echo "ADD RECORDS TABLE Owner :";
+        $faker = Faker\Factory::create('fr_FR');
+        $firstName=$faker->firstName();
+        $lastName=$faker->lastName();
+        $email=strtolower(utf8_decode($firstName[0])).'.'.strtolower(utf8_decode($lastName)).'@test.fr';
+        $phoneNumber=strval($faker->randomDigit(8));
+        $owner=[
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'email' => $email,
+            'phoneNumber'=>$phoneNumber,
+            'address'=>,
+        ];
+    }
+    function seedTown(){
+        echo "ADD RECORDS TABLE Town :";
+        $town=[
+            'postalCode'=>,
+            'name'=>,
+        ];
+    }
+    function seedCountry(){
+        echo "ADD RECORDS TABLE Country :";
+        $country=[
+            'name'=>,
+        ];
+    }
+    function seedMandateFile(){
+        echo "ADD RECORDS TABLE MandateFile :";
+        $mandateFile=[
+            'filePath'=>,
+            'name'=>,
+        ];
+    }
+    function seedDiagnosis(){
+        echo "ADD RECORDS TABLE Diagnosis :";
+        $diagnosis=[
+            'filePath'=>,
+            'establishDate'=>,
+        ];
+    }
+    function seedDiagnosisType(){
+        echo "ADD RECORDS TABLE DiagnosisType :";
+        $diagnosisType=[
+            'name'=>,
+        ];
+    }
     //roles
     seedRoles();
     //permissions
