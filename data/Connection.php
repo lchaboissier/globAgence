@@ -64,6 +64,15 @@ class Connection {
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    
+    public static function safeExec($query,$array){
+        if (is_null(self::$_pdo)) {
+            self::_get();
+        }
+        $sth=self::$_pdo->prepare($query);
+        $sth->execute($array);
+    }
+
 
     public static function exec($query) {
         if (is_null(self::$_pdo)) {
