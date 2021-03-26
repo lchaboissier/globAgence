@@ -12,6 +12,10 @@ ini_set('display_startup_errors',true);
 // Inclure tous les fichiers du framework de manière automatique
 include ('../include.php');
 
+public function switchAction(){
+
+}
+
 // Récupérer les paramètres "route" et "action" de l'url
 $route='';
 if (isset($_GET['route'])) {
@@ -37,7 +41,8 @@ switch ($route){
         featureControl($action);
     break;
     case 'authenticate':
-        authenticateControl($action);
+        $myControl=new AuthenticateController();
+        $myControl->switchAction($action);
     break;
     default :
         echo '<p>La route spécifiée ('.$route.') n\'existe pas !</p>';
