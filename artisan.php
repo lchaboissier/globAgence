@@ -398,76 +398,152 @@ function artisan_seed_minimum() {
         }
         echo "\n";      
     }
-    function seedProperty(){
-        echo "ADD RECORDS TABLE Property :";
-        $property=[
-            'ref'=>,
-            'title'=>,
-            'description'=>,
-            'address'=>,
-            'postalCode'=>,
-            'area'=>,
-            'livingRoomsNumber'=>,
-        ];
+    function seedProperty($nbProperty){
+        echo "ADD RECORDS TABLE property :";
+        for ($i=0;$i<$nbProperty;$i++) {
+            $faker = Faker\Factory::create('fr_FR');
+            $ref = $faker->randomNumber(6);
+            $title = $faker->realText(20, 1);
+            $description = $faker->realText(50, 1);
+            $postalCode = $faker->postcode();
+            $address = $faker->streetAddress();
+            $area = $faker->randomNumber($faker->randomNumber(1));
+            $livingRoomsNumber = $faker->randomNumber(1);
+            $property = [
+                'ref' => $ref,
+                'title' => $title,
+                'description' => $description,
+                'address' => $address,
+                'postalCode' => $postalCode,
+                'area' => $area,
+                'livingRoomsNumber' => $livingRoomsNumber,
+            ];
+            Connection::insert('property', $property);
+            echo '-';
+        }
     }
-    function seedMandate(){
-        echo "ADD RECORDS TABLE Mandate :";
-       $mandate=[
-           'ref'=>,
-           'price'=>,
-           'agencyFees'=>,
-           'consultantBenefit'=>,
-           'signatureDate'=>,
-           'status'=>,
-       ];
+    function seedMandate($nbMandate){
+        echo "ADD RECORDS TABLE mandate :";
+        for ($i=0;$i<$nbMandate;$i++) {
+            $faker = Faker\Factory::create();
+            $ref = $faker->randomNumber(6);
+            $price = $faker->numberBetween(0.1, 500000);
+            $agencyFees = $price * 0.05;
+            $consultantBenefit = 0;
+            $signatureDate = $faker->dateTimeThisCentury->format('Y-m-d');
+            if ($price < 29000) {
+                $consultantBenefit = $agencyFees * 0.7;
+            } elseif ($price < 49000) {
+                $consultantBenefit = $agencyFees * 0.75;
+            } elseif ($price < 69000) {
+                $consultantBenefit = $agencyFees * 0.8;
+            } elseif ($price < 89000) {
+                $consultantBenefit = $agencyFees * 0.85;
+            } elseif ($price < 149000) {
+                $consultantBenefit = $agencyFees * 0.9;
+            } elseif ($price < 189000) {
+                $consultantBenefit = $agencyFees * 0.95;
+            } elseif ($price > 189000) {
+                $consultantBenefit = $agencyFees * 0.99;
+            }
+            $status = $faker->word();
+            $mandate = [
+                'ref' => $ref,
+                'price' => $price,
+                'agencyFees' => $agencyFees,
+                'consultantBenefit' => $consultantBenefit,
+                'signatureDate' => $signatureDate,
+                'status' => $status,
+            ];
+            Connection::insert('mandate', $mandate);
+            echo '-';
+        }
     }
-    function seedOwner(){
-        echo "ADD RECORDS TABLE Owner :";
-        $faker = Faker\Factory::create('fr_FR');
-        $firstName=$faker->firstName();
-        $lastName=$faker->lastName();
-        $email=strtolower(utf8_decode($firstName[0])).'.'.strtolower(utf8_decode($lastName)).'@test.fr';
-        $phoneNumber=strval($faker->randomDigit(8));
-        $owner=[
-            'firstName' => $firstName,
-            'lastName' => $lastName,
-            'email' => $email,
-            'phoneNumber'=>$phoneNumber,
-            'address'=>,
-        ];
+    function seedOwner($nbOwner){
+        echo "ADD RECORDS TABLE owner :";
+        for ($i=0;$i<$nbOwner;$i++) {
+            $faker = Faker\Factory::create('fr_FR');
+            $firstName = $faker->firstName();
+            $lastName = $faker->lastName();
+            $email = strtolower(utf8_decode($firstName[0])) . '.' . strtolower(utf8_decode($lastName)) . '@test.fr';
+            $phoneNumber = strval($faker->randomDigit(8));
+            $address=$faker->address();
+            $owner = [
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'email' => $email,
+                'phoneNumber' => $phoneNumber,
+                'address' => $address,
+            ];
+            Connection::insert('owner', $owner);
+            echo '-';
+        }
     }
-    function seedTown(){
-        echo "ADD RECORDS TABLE Town :";
-        $town=[
-            'postalCode'=>,
-            'name'=>,
-        ];
+    function seedTown($nbTown){
+        echo "ADD RECORDS TABLE town :";
+        for ($i=0;$i<$nbTown;$i++) {
+            $faker = Faker\Factory::create();
+            $postalCode = $faker->postcode();
+            $name = $faker->city();
+            $town = [
+                'postalCode' => $postalCode,
+                'name' => $name,
+            ];
+            Connection::insert('town', $town);
+            echo '-';
+        }
     }
-    function seedCountry(){
-        echo "ADD RECORDS TABLE Country :";
-        $country=[
-            'name'=>,
-        ];
+    function seedCountry($nbCountry){
+        echo "ADD RECORDS TABLE country :";
+        for ($i=0;$i<$nbCountry;$i++) {
+            $faker = Faker\Factory::create();
+            $name = $faker->state();
+            $country = [
+                'name' => $name,
+            ];
+            Connection::insert('country', $country);
+            echo '-';
+        }
     }
-    function seedMandateFile(){
-        echo "ADD RECORDS TABLE MandateFile :";
-        $mandateFile=[
-            'filePath'=>,
-            'name'=>,
-        ];
+    function seedMandateFile($nbMandateFile){
+        echo "ADD RECORDS TABLE mandateFile :";
+        for ($i=0;$i<$nbMandateFile;$i++) {
+            $faker = Faker\Factory::create();
+            $name = $faker->word();
+            $filePath = 'C:/file/Mandate/' . $faker->word();
+            $mandateFile = [
+                'filePath' => $filePath,
+                'name' => $name,
+            ];
+            Connection::insert('mandateFile', $mandateFile);
+            echo '-';
+        }
     }
-    function seedDiagnosis(){
-        echo "ADD RECORDS TABLE Diagnosis :";
-        $diagnosis=[
-            'filePath'=>,
-            'establishDate'=>,
-        ];
+    function seedDiagnosis($nbDiagnosis){
+        echo "ADD RECORDS TABLE diagnosis :";
+        for ($i=0;$i<$nbDiagnosis;$i++) {
+            $faker = Faker\Factory::create();
+            $establishDate = $faker->dateTimeThisCentury->format('Y-m-d');
+            $filePath = 'C:/file/Diagnosis/' . $faker->word();
+            $diagnosis = [
+                'filePath' => $filePath,
+                'establishDate' => $establishDate,
+            ];
+            Connection::insert('diagnosis', $diagnosis);
+            echo '-';
+        }
     }
-    function seedDiagnosisType(){
-        echo "ADD RECORDS TABLE DiagnosisType :";
-        $diagnosisType=[
-            'name'=>,
-        ];
+    function seedDiagnosisType($nbDiagnosisType){
+        echo "ADD RECORDS TABLE diagnosisType :";
+        for ($i=0;$i<$nbDiagnosisType;$i++) {
+            $faker = Faker\Factory::create();
+            $name = $faker->word();
+            $diagnosisType = [
+                'name' => $name,
+            ];
+            Connection::insert('diagnosis', $diagnosisType);
+            echo '-';
+        }
     }
     //roles
     seedRoles();
@@ -477,6 +553,22 @@ function artisan_seed_minimum() {
     seedCan();
     //users
     seedUsers(100);
+    //property
+    seedProperty(100);
+    //mandate
+    seedMandate(100);
+    //owner
+    seedOwner(100);
+    //town
+    seedTown(100);
+    //country
+    seedCountry(100);
+    //mandateFile
+    seedMandateFile(100);
+    //diagnosis
+    seedDiagnosis(100);
+    //diagnosisType
+    seedDiagnosisType(100);
 
 
     
