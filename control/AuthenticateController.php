@@ -4,7 +4,7 @@ class AuthenticateController{
 
     public function __construct(){}
 
-    public function authenticateControl($userAction){
+    public function switchControl($userAction){
         switch ($userAction){
             case "login":
                 $email=$_POST['email'];

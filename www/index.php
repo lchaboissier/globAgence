@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // POINT D'ENTREE DE L'APPLICATION
 //
 
@@ -11,10 +11,6 @@ ini_set('display_startup_errors',true);
 
 // Inclure tous les fichiers du framework de manière automatique
 include ('../include.php');
-
-public function switchAction(){
-
-}
 
 // Récupérer les paramètres "route" et "action" de l'url
 $route='';
