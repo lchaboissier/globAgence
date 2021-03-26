@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // POINT D'ENTREE DE L'APPLICATION
 //
 
@@ -37,7 +37,8 @@ switch ($route){
         featureControl($action);
     break;
     case 'authenticate':
-        authenticateControl($action);
+        $myControl=new AuthenticateController();
+        $myControl->switchAction($action);
     break;
     default :
         echo '<p>La route spécifiée ('.$route.') n\'existe pas !</p>';

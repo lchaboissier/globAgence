@@ -32,6 +32,7 @@ class Connection {
         }
         self::$_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         self::$_pdo->exec('SET NAMES \'utf8\'');
+        self::$_pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
     }
 
 
