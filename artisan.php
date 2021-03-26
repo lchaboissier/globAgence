@@ -241,7 +241,7 @@ function artisan_migrate_minimum() {
         email VARCHAR(255),
         password VARCHAR(255),
         isAdmin int,
-        role_id int REFERENCES role(id)
+        role_id int
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
@@ -253,8 +253,8 @@ function artisan_migrate_minimum() {
     
     $request=   'CREATE TABLE IF NOT EXISTS can (
                 id int AUTO_INCREMENT PRIMARY KEY,
-                role_id int REFERENCES role(id),
-                permission_id int REFERENCES permission(id)
+                role_id int,
+                permission_id int
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
