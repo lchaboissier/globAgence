@@ -77,8 +77,6 @@ function artisan_migrate_project() {
             title VARCHAR(255),
             description TEXT,
             address VARCHAR(255),
-            postalCode CHAR(5),
-            town VARCHAR(255),
             area float,
             livingRoomsNumber int
         );',
@@ -196,28 +194,28 @@ function artisan_seed_project() {
     // First : empty your tables 
     echo "EMPTY ALL YOUR TABLES : ";
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
-    echo (0 == Connection::exec('TRUNCATE example')) ? '-' : 'x';
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     echo "\n";
 
-    function seed_exemple($nbRows){
-        echo "ADD RECORDS IN TABLE example : ";
-        $faker = Faker\Factory::create('fr_FR');
 
-       for ($i=0;$i<$nbRows;$i++){
-           // Add a new random record in the table
-            $row = [
-                'name' => $faker->text()
-                ];
-
-            Connection::insert('example', $row);
-            echo "-";
-        }
-        echo "\n";
-    }
-
-    // Thrid : calls the seeders functions here
-    seed_exemple(100);
+    //property
+    seedProperty(100);
+    //mandateType
+    seedMandateType(10);
+    //mandate
+    seedMandate(100);
+    //owner
+    seedOwner(100);
+    //town
+    seedTown(100);
+    //country
+    seedCountry(100);
+    //mandateFile
+    seedMandateFile(100);
+    //diagnosis
+    seedDiagnosis(100);
+    //diagnosisType
+    seedDiagnosisType(100);
 }
 
 
@@ -399,13 +397,13 @@ function artisan_seed_minimum() {
         echo "\n";      
     }
     function seedProperty($nbProperty){
-        echo "ADD RECORDS TABLE property :";
+        echo "ADD RECORDS TABLE property : ";
         for ($i=0;$i<$nbProperty;$i++) {
-            $faker = Faker\Factory::create('fr_FR');
+            gc_collect_cycles();
+            $faker = \Faker\Factory::create('fr_FR');
             $ref = $faker->randomNumber(6);
             $title = $faker->realText(20, 1);
             $description = $faker->realText(50, 1);
-            $postalCode = $faker->postcode();
             $address = $faker->streetAddress();
             $area = $faker->randomNumber($faker->randomNumber(1));
             $livingRoomsNumber = $faker->randomNumber(1);
@@ -414,7 +412,6 @@ function artisan_seed_minimum() {
                 'title' => $title,
                 'description' => $description,
                 'address' => $address,
-                'postalCode' => $postalCode,
                 'area' => $area,
                 'livingRoomsNumber' => $livingRoomsNumber,
             ];
@@ -422,8 +419,21 @@ function artisan_seed_minimum() {
             echo '-';
         }
     }
+    function seedMandateType($nbMandateType) {
+        echo "\nADD RECORDS INTO TABLE mandateType :";
+        for ($i=0; $i < $nbMandateType; $i++) {
+            Connection::insert(
+                'mandateType',
+                [
+                    'name' => "mandate type n°".$i
+                ]
+                );
+                echo '-';
+        }
+    }
+
     function seedMandate($nbMandate){
-        echo "ADD RECORDS TABLE mandate :";
+        echo "\nADD RECORDS TABLE mandate : ";
         for ($i=0;$i<$nbMandate;$i++) {
             $faker = Faker\Factory::create();
             $ref = $faker->randomNumber(6);
@@ -453,14 +463,14 @@ function artisan_seed_minimum() {
                 'agencyFees' => $agencyFees,
                 'consultantBenefit' => $consultantBenefit,
                 'signatureDate' => $signatureDate,
-                'status' => $status,
+                'status' => rand(0, 10),
             ];
             Connection::insert('mandate', $mandate);
             echo '-';
         }
     }
     function seedOwner($nbOwner){
-        echo "ADD RECORDS TABLE owner :";
+        echo "\nADD RECORDS INTO TABLE owner :";
         for ($i=0;$i<$nbOwner;$i++) {
             $faker = Faker\Factory::create('fr_FR');
             $firstName = $faker->firstName();
@@ -480,10 +490,10 @@ function artisan_seed_minimum() {
         }
     }
     function seedTown($nbTown){
-        echo "ADD RECORDS TABLE town :";
+        echo "\nADD RECORDS INTO TABLE town :";
         for ($i=0;$i<$nbTown;$i++) {
             $faker = Faker\Factory::create();
-            $postalCode = $faker->postcode();
+            $postalCode = rand(0, 99999);
             $name = $faker->city();
             $town = [
                 'postalCode' => $postalCode,
@@ -541,7 +551,7 @@ function artisan_seed_minimum() {
             $diagnosisType = [
                 'name' => $name,
             ];
-            Connection::insert('diagnosis', $diagnosisType);
+            Connection::insert('diagnosisType', $diagnosisType);
             echo '-';
         }
     }
@@ -553,25 +563,6 @@ function artisan_seed_minimum() {
     seedCan();
     //users
     seedUsers(100);
-    //property
-    seedProperty(100);
-    //mandate
-    seedMandate(100);
-    //owner
-    seedOwner(100);
-    //town
-    seedTown(100);
-    //country
-    seedCountry(100);
-    //mandateFile
-    seedMandateFile(100);
-    //diagnosis
-    seedDiagnosis(100);
-    //diagnosisType
-    seedDiagnosisType(100);
-
-
-    
 }
 
 
