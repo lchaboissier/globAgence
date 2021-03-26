@@ -30,6 +30,7 @@ class Connection {
         } catch (PDOException $e) {
             echo 'Connexion échouée : ' . $e->getMessage();
         }
+        self::$_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         self::$_pdo->exec('SET NAMES \'utf8\'');
         self::$_pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
     }
@@ -62,6 +63,15 @@ class Connection {
             throw new Exception('Erreur de requête : '.$query);
         }
         return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    
+    public static function safeExec($query,$array){
+        if (is_null(self::$_pdo)) {
+            self::_get();
+        }
+        $sth=self::$_pdo->prepare($query);
+        $sth->execute($array);
     }
 
 

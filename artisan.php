@@ -50,19 +50,141 @@ function artisan_migrate_project() {
     // First :  drop the tables if exists
     echo "DROPPING ALL YOUR TABLES : ";
     echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
-    echo (0 ==Connection::exec('DROP TABLE IF EXISTS example;')) ? '-' : 'x';
+    $toRemove = [
+        'property',
+        'propertyType',
+        'mandate',
+        'mandateType',
+        'mandateFile',
+        'owner',
+        'town',
+        'country',
+        'diagnosis',
+        'diagnosisType',
+        'picture'
+    ];
+    foreach ($toRemove as $del) {
+        echo (0 ==Connection::exec('DROP TABLE IF EXISTS '.$del.';')) ? '-' : 'x';  
+    };
     echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
 
     // Second : create your tables
     echo "\nCREATING ALL YOUR TABLES : ";
-    $request =  'CREATE TABLE IF NOT EXISTS example (
-        id int AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255)
-        );';
-    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+    $requests = [
+        'CREATE TABLE property (
+            id int AUTO_INCREMENT PRIMARY KEY,
+            ref VARCHAR(255),
+            title VARCHAR(255),
+            description TEXT,
+            address VARCHAR(255),
+            postalCode CHAR(5),
+            town VARCHAR(255),
+            area float,
+            livingRoomsNumber int
+        );',
+        'CREATE TABLE propertyType (
+            id int AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255)
+        );',
+        'CREATE TABLE mandate (
+            id int AUTO_INCREMENT PRIMARY KEY,
+            ref VARCHAR(255),
+            price float,
+            agencyFees float,
+            consultantBenefit float,
+            signatureDate date,
+            status int
+        );',
+        'CREATE TABLE mandateType (
+            id int AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255)
+        );',
+        'CREATE TABLE mandateFile (
+            id int AUTO_INCREMENT PRIMARY KEY,
+            filePath VARCHAR(255),
+            name VARCHAR(255)
+        );',
+        'CREATE TABLE owner (
+            id int AUTO_INCREMENT PRIMARY KEY,
+            firstName VARCHAR(255),
+            lastName VARCHAR(255),
+            email VARCHAR(255),
+            phoneNumber VARCHAR(255),
+            address VARCHAR(255)
+        );',
+        'CREATE TABLE town (
+            id int AUTO_INCREMENT PRIMARY KEY,
+            postalCode CHAR(5),
+            name VARCHAR(255)
+        );',
+        'CREATE TABLE country (
+            id int AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255)
+        );',
+        'CREATE TABLE diagnosis (
+            id int AUTO_INCREMENT PRIMARY KEY,
+            filePath VARCHAR(255),
+            establishDate date
+        );',
+        'CREATE TABLE diagnosisType (
+            id int AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255)
+        );',
+        'CREATE TABLE picture (
+            id int AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255),
+            filePath VARCHAR(255)
+        );'
+    ];
 
-    // Third : Alter tables to add Foreign Keys
-    echo "\nADDING ALL YOUR FOREIGN KEYS : ";
+    foreach ($requests as $request) {
+        echo (0==Connection::exec($request)) ? '-' : 'x';  
+    };
+
+    /// third: foreign key
+    echo "\nCREATING FOREIGN KEYS : ";
+
+    $foreign_keys = [
+        "property" => [
+            "town_id" => "town",
+            "mandate_id" => "mandate"
+        ],
+        "diagnosis" => [
+            "property_id" => "property",
+            "propertyType_id" => "propertyType"
+        ],
+        "diagnosisType" => [
+            "diagnosis_id" => "diasgnosis"
+        ],
+        "picture" => [
+            "property_id" => "property"
+        ],
+        "mandate" => [
+            "owner_id" => "owner",
+            "mandateType_id" => "mandateType",
+            "entererUser_id" => "user"
+        ],
+        "owner" => [
+            "liveTown_id" => "town"
+        ],
+        "town" => [
+            "country_id" => "country"
+        ]
+
+    ];
+
+    foreach ($foreign_keys as $source_table => $links) {
+        foreach ($links as $source_column => $distant_table) {
+            echo (0==Connection::safeExec(
+                "ALTER TABLE ".$source_table." ADD ".$source_column." INT;
+                ALTER TABLE ".$source_table." ADD FOREIGN KEY (".$source_column.") REFERENCES ".$distant_table."(id);",
+                []
+            )) ? "-" : "x";
+        }
+    }
+
+    
+
     echo "\n";
 
 }
@@ -119,7 +241,7 @@ function artisan_migrate_minimum() {
         email VARCHAR(255),
         password VARCHAR(255),
         isAdmin int,
-        role_id int REFERENCES role(id)
+        role_id int
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
@@ -131,8 +253,8 @@ function artisan_migrate_minimum() {
     
     $request=   'CREATE TABLE IF NOT EXISTS can (
                 id int AUTO_INCREMENT PRIMARY KEY,
-                role_id int REFERENCES role(id),
-                permission_id int REFERENCES permission(id)
+                role_id int,
+                permission_id int
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
