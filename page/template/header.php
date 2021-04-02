@@ -41,6 +41,8 @@
                     echo $user->firstName.' '.$user->lastName; ?>
                     <i class="fas fa-user-circle"></i></a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <h6 class="dropdown-header"><?php $user = unserialize($_SESSION['user']);
+                        echo $user->role->name; ?></h6>
                     <a class="dropdown-item" href="?route=user" ><i class="fas fa-user-cog mr-2"></i> Profil</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="?route=authenticate&action=logout"><i class="fas fa-sign-out-alt mr-2"></i>Déconnexion</a>
