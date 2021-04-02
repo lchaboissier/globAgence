@@ -10,9 +10,9 @@ return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Connection' => $baseDir . '/data/Connection.php',
     'DataObject' => $baseDir . '/data/DataObject.php',
+    'Role' => $baseDir . '/data/Role.php',
     'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
     'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
     'User' => $baseDir . '/data/User.php',
-    'UserDAO' => $baseDir . '/data/dao/UserDAO.php',
     'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
 );
