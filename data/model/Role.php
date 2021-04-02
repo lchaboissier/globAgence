@@ -1,9 +1,10 @@
 <?php
 
+
 /**
- * Class Example
+ * Class Role
  */
-class Example
+class Role
 {
     /**
      * @var int
@@ -15,7 +16,7 @@ class Example
     private $name;
 
     /**
-     * Example constructor.
+     * Role constructor.
      * @param int $id
      * @param string $name
      */
@@ -56,6 +57,5 @@ class Example
     {
         $this->name = $name;
     }
-
 
 }
