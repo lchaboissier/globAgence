@@ -4,13 +4,7 @@ foreach (glob('../data/*.php') as $file) {
     include($file);
 }
 
-foreach (glob('../data/dao/*.php') as $file) {
-    include($file);
-}
 
-foreach (glob('../data/model/*.php') as $file) {
-    include($file);
-}
 
 foreach (glob('../control/*.php') as $file) {
     include($file);
