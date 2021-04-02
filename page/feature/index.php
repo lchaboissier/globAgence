@@ -30,8 +30,8 @@
     <?php
     foreach($examples as $example){
         echo '<tr>';
-        echo '<td>'.$example['id'].'</td>';
-        echo '<td>'.$example['name'].'</td>';
+        echo '<td>'.$example->getId().'</td>';
+        echo '<td>'.$example->getName().'</td>';
         echo '</tr>';
     }
     ?>
