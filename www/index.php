@@ -31,13 +31,13 @@ if (!isset($_SESSION['user'])){
 // Sélectionner le controleur en fonction de la "route" et lui passer son "action"
 switch ($route){
     case 'dashboard':
-        dashboardControl($action);
+        DashboardController::switchAction($action);
     break;
     case 'feature':
-        featureControl($action);
+        FeatureController::switchAction($action);
     break;
     case 'authenticate':
-        authenticateControl($action);
+        AuthenticateController::switchAction($action);
     break;
     default :
         echo '<p>La route spécifiée ('.$route.') n\'existe pas !</p>';

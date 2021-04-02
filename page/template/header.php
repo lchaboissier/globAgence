@@ -36,7 +36,10 @@
 
             <!-- User Dropdown Menu -->
             <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#"><?= $_SESSION['user']['firstName'].' '.$_SESSION['user']['lastName'] ?> <i class="fas fa-user-circle"></i></a>
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <?php $user = unserialize($_SESSION['user']);
+                    echo $user->getFirstname().' '.$user->getLastName(); ?>
+                    <i class="fas fa-user-circle"></i></a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <a class="dropdown-item" href="?route=user" ><i class="fas fa-user-cog mr-2"></i> Profil</a>
                     <div class="dropdown-divider"></div>
