@@ -19,6 +19,12 @@ class DataObject {
                 $result->$attributeName = (int) $dict[$attributeName];
             } elseif ($kind == "string") {
                 $result->$attributeName = $dict[$attributeName];
+            } elseif ($kind == "reference") {
+                // this is a reference to a foreign table
+                $reference = $attributeData["reference"];
+                $attributeNameId = $attributeName."_id";
+                $id = $dict[$attributeNameId];
+                $result->$attributeName = $reference::find($id);
             } else {
                 throw new Exception("Unknown table type : ".$kind);                
             }

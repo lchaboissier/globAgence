@@ -8,7 +8,10 @@ class User extends DataObject {
         "email" => [ "kind" => "string" ],
         "password" => [ "kind" => "string" ],
         "isAdmin" => [ "kind" => "int" ],
-        "role_id" => [ "kind" => "int" ],
+        "role" => [
+            "kind" => "reference",
+            "reference" => "Role"
+        ],
     ];
 
     static function findOneWithCredentials($mail, $pass) {
