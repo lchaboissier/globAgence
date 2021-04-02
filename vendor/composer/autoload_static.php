@@ -60,8 +60,12 @@ class ComposerStaticInit70375162486a2202fdbd59e31c26bb84
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Connection' => __DIR__ . '/../..' . '/data/Connection.php',
+        'DataObject' => __DIR__ . '/../..' . '/data/DataObject.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+        'User' => __DIR__ . '/../..' . '/data/User.php',
+        'UserDAO' => __DIR__ . '/../..' . '/data/dao/UserDAO.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );
 

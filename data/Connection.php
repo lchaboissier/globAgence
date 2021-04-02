@@ -16,11 +16,11 @@ class Connection {
     private static $lastRequest=null;
 
 
-    private function __construct() {
+    public function __construct() {
         
     }
 
-    private  static function _get() {
+    private static function _get() {
         $dsn = 'mysql:dbname='.ENV['DB_DATABASE'].';host='.ENV['DB_HOST'];
         $user = ENV['DB_USERNAME'];
         $password = ENV['DB_PASSWORD'];
