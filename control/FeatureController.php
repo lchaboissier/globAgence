@@ -6,7 +6,7 @@ class FeatureController{
 
     public static function switchAction($userAction){
 
-        if(!$_SESSION['user']['isAdmin']){
+        if(!$_SESSION['user']->isAdmin){
             header('Location:?route=dashboard');
         }
 

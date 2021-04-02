@@ -34,7 +34,7 @@ class DataObject {
         $result = [];
         foreach ($all as $entry) {
             $result[] = get_called_class()::dict_to_self($entry);
-        }
+        };
         return $result;
     }
 
@@ -43,5 +43,22 @@ class DataObject {
             "SELECT * FROM ".get_called_class()::getTable()." WHERE id=?",
             [$id]
         )[0];
+    }
+
+    public static function where($attribute, $second, $third = null) {
+        // handle the input renaming
+        if ($third == null) {
+            $comparator = "=";
+            $value = $second;
+        } else {
+            $comparator = $second;
+            $value = $third;
+        };
+        // perform the query
+        return get_called_class()::query(
+            "SELECT * FROM ".get_called_class()::getTable()." WHERE "
+                .$attribute." ".$comparator." ?",
+            [ $value ],
+        );
     }
 }

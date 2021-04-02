@@ -10,4 +10,16 @@ class User extends DataObject {
         "isAdmin" => [ "kind" => "int" ],
         "role_id" => [ "kind" => "int" ],
     ];
+
+    static function findOneWithCredentials($mail, $pass) {
+        $got = self::query(
+            "SELECT * FROM ".self::getTable()." WHERE password = ? AND email = ?",
+            [sha1($pass), $mail]
+        );
+        if (count($got) == 0) {
+            return [];
+        } else {
+            return $got[0];
+        }
+    }
 }
