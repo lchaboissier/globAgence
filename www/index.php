@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // POINT D'ENTREE DE L'APPLICATION
 //
 
