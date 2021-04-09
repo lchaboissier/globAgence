@@ -15,7 +15,10 @@ class GoodController {
     }
 
     public static function addProperty() {
-        echo "TODO";
+        var_dump($GLOBALS["user"]);
+        var_dump(can("details"));
         
+        echo "TODO";
+
     }
 }

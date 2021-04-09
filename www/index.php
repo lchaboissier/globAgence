@@ -24,8 +24,10 @@ if (isset($_GET['action'])) {
 }
 
 // Forcer la "route" à "authenticate" si l'utilisateur n'a pas de session active donc n'est pas connecté
-if (!isset($_SESSION['user'])){
+if (!isset($_SESSION['user_id'])){
     $route='authenticate';
+} else {
+    $GLOBALS["user"] = User::find($_SESSION['user_id']);
 }
 
 // Sélectionner le controleur en fonction de la "route" et lui passer son "action"

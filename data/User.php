@@ -25,4 +25,14 @@ class User extends DataObject {
             return $got[0];
         }
     }
+
+    public function can(string $permission) {
+        $got = Connection::safeQuery(
+            "SELECT * FROM can WHERE role_id=? AND permission_id=(
+                SELECT id FROM permission WHERE action=?
+            )",
+            [$this->role->id, $permission]
+        );
+        return count($got) >= 1;
+    }
 }

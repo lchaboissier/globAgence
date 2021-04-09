@@ -46,7 +46,8 @@ class AuthenticateController{
         else{
             // L'utilisateur a le droit d'accès
             //$_SESSION['user']=$user;
-            $_SESSION['user']=serialize($user);
+            $_SESSION['user_id']=$user->id;
+            $GLOBALS['user']=$user;
             header('location:./?route=dashboard');
         }
     }
