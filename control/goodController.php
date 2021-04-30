@@ -15,10 +15,9 @@ class GoodController {
     }
 
     public static function addProperty() {
-        var_dump($GLOBALS["user"]);
-        var_dump(can("details"));
-        
-        echo "TODO";
-
+        $form_html = PropertyForm::generate_html_form([]);
+        $tabTitle = "ajouter une nouvelle propriété";
+        $pageTitle = "ajouter une nouvelle propriété";
+        include("../page/good/changeProperty.php");
     }
 }

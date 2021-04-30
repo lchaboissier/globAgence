@@ -11,3 +11,5 @@ foreach (glob('../control/*.php') as $file) {
 }
 
 include ('../page/fct_date.php');
+include (__DIR__."/form/Form.php");
+include (__DIR__."/form/PropertyForm.php");
