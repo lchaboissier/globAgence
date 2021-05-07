@@ -50,8 +50,6 @@ function get_to_remove() {
         'mandateType',
         'mandateFile',
         'owner',
-        'town',
-        'country',
         'diagnosis',
         'diagnosisType',
         'picture'
@@ -80,7 +78,8 @@ function artisan_migrate_project() {
             description TEXT,
             address VARCHAR(255),
             area float,
-            livingRoomsNumber int
+            livingRoomsNumber int,
+            town VARCHAR(255)
         );',
         'CREATE TABLE propertyType (
             id int AUTO_INCREMENT PRIMARY KEY,
@@ -112,15 +111,6 @@ function artisan_migrate_project() {
             phoneNumber VARCHAR(255),
             address VARCHAR(255)
         );',
-        'CREATE TABLE town (
-            id int AUTO_INCREMENT PRIMARY KEY,
-            postalCode CHAR(5),
-            name VARCHAR(255)
-        );',
-        'CREATE TABLE country (
-            id int AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(255)
-        );',
         'CREATE TABLE diagnosis (
             id int AUTO_INCREMENT PRIMARY KEY,
             filePath VARCHAR(255),
@@ -146,7 +136,6 @@ function artisan_migrate_project() {
 
     $foreign_keys = [
         "property" => [
-            "town_id" => "town",
             "mandate_id" => "mandate"
         ],
         "diagnosis" => [
@@ -163,12 +152,6 @@ function artisan_migrate_project() {
             "owner_id" => "owner",
             "mandateType_id" => "mandateType",
             "entererUser_id" => "user"
-        ],
-        "owner" => [
-            "liveTown_id" => "town"
-        ],
-        "town" => [
-            "country_id" => "country"
         ]
 
     ];
@@ -220,7 +203,7 @@ function artisan_seed_project() {
                 'address' => $address,
                 'area' => $area,
                 'livingRoomsNumber' => $livingRoomsNumber,
-                'town_id' => rand(0, 100),
+                'town' => $faker->city(),
             ];
             Connection::insert('property', $property);
             echo '-';
@@ -296,33 +279,6 @@ function artisan_seed_project() {
             echo '-';
         }
     }
-    function seedTown($nbTown){
-        echo "\nADD RECORDS INTO TABLE town :";
-        for ($i=0;$i<$nbTown;$i++) {
-            $faker = Faker\Factory::create();
-            $postalCode = rand(0, 99999);
-            $name = $faker->city();
-            $town = [
-                'postalCode' => $postalCode,
-                'name' => $name,
-                'country_id' => rand(1, 10)
-            ];
-            Connection::insert('town', $town);
-            echo '-';
-        }
-    }
-    function seedCountry($nbCountry){
-        echo "ADD RECORDS TABLE country :";
-        for ($i=0;$i<$nbCountry;$i++) {
-            $faker = Faker\Factory::create();
-            $name = $faker->state();
-            $country = [
-                'name' => $name,
-            ];
-            Connection::insert('country', $country);
-            echo '-';
-        }
-    }
     function seedMandateFile($nbMandateFile){
         echo "ADD RECORDS TABLE mandateFile :";
         for ($i=0;$i<$nbMandateFile;$i++) {
@@ -363,11 +319,6 @@ function artisan_seed_project() {
             echo '-';
         }
     }
-
-    //country
-    seedCountry(10);
-    //town
-    seedTown(100);
     //property
     seedProperty(100);
     //mandateType
